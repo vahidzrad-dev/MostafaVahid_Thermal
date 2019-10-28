@@ -1,0 +1,99 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{bourdin2008variational}
+B.~Bourdin, G.~A. Francfort, J.~J. Marigo, {The variational approach to
+  fracture}, Journal of Elasticity 91 (2008) 5--148.
+
+\bibitem{ambrosio1990approximation}
+L.~Ambrosio, V.~M. Tortorelli, On the Approximation of Free Discontinuity
+  Problems, Scuola Normale Superiore, 1990.
+
+\bibitem{ambrosio1992approximation}
+L.~Ambrosio, V.~M. Tortorelli, On the approximation of functionals depending on
+  jumps by quadratic, elliptic functionals, Bollettino dell'Unione Matematica
+  Italiana 6 (1992) 105--123.
+
+\bibitem{tanne2018crack}
+E.~Tann{\'e}, T.~Li, B.~Bourdin, J.-J. Marigo, C.~Maurini, Crack nucleation in
+  variational phase-field models of brittle fracture, Journal of the Mechanics
+  and Physics of Solids 110 (2018) 80--99.
+
+\bibitem{Bourdin2014014301}
+B.~Bourdin, J.-J. Marigo, C.~Maurini, P.~Sicsic, Morphogenesis and propagation
+  of complex cracks induced by thermal shocks, Physical Review Letters 112
+  (2014) 014301.
+
+\bibitem{amor2009regularized}
+H.~Amor, J.-J. Marigo, C.~Maurini, Regularized formulation of the variational
+  brittle fracture with unilateral contact: numerical experiments, Journal of
+  the Mechanics and Physics of Solids 57~(8) (2009) 1209--1229.
+
+\bibitem{Bourdin2000797}
+B.~Bourdin, G.~A. Francfort, J.-J. Marigo, Numerical experiments in revisited
+  brittle fracture, Journal of the Mechanics and Physics of Solids 48~(4)
+  (2000) 797--826.
+
+\bibitem{BourdinCFRAC13}
+B.~Bourdin, C.~Chukwudozie, K.~Yoshioka, A variational approach to the
+  numerical simulation of hydraulic fracturing, in: M.~Jir\'asek, O.~Allix,
+  N.~Mo\"es, J.~Oliver (Eds.), Computational Modeling of Fracture and Failure
+  of Materials and Structures: Proceedings of CFRAC 2013, 2013, p. 180.
+
+\bibitem{mahmoud2014development}
+M.~Mahmoud, Development of a new correlation of gas compressibility factor
+  (z-factor) for high pressure gas reservoirs, Journal of Energy Resources
+  Technology 136~(1) (2014) 012903.
+
+\bibitem{lewis1998finite}
+R.~W. Lewis, B.~A. Schrefler, The finite element method in the static and
+  dynamic deformation and consolidation of porous media, Vol.~2, Wiley
+  Chichester, 1998.
+
+\bibitem{merxhani2016introduction}
+A.~Merxhani, An introduction to linear poroelasticity. arxiv preprint arxiv:
+  160704274 google scholar.
+
+\bibitem{heider2018modeling}
+Y.~Heider, S.~Reiche, P.~Siebert, B.~Markert, Modeling of hydraulic fracturing
+  using a porous-media phase-field approach with reference to experimental
+  data, Engineering Fracture Mechanics 202 (2018) 116--134.
+
+\bibitem{Sheng2012}
+M.~Sheng, G.~Li, S.~Shah, X.~Jin, Extended finite element modeling of
+  multi-scale flow in fractured shale gas reservoirs, Vol.~5, 2012.
+
+\bibitem{Civan2010}
+F.~Civan, Effective correlation of apparent gas permeability in tight porous
+  media, Transport in Porous Media 82~(2) (2010) 375--384.
+
+\bibitem{Logg2012}
+A.~Logg, G.~N. Wells, J.~Hake, DOLFIN: A C++/Python Finite Element Library,
+  Springer Berlin Heidelberg, Berlin, Heidelberg, 2012.
+
+\bibitem{amestoy2000mumps}
+P.~R. Amestoy, I.~S. Duff, J.-Y. L’Excellent, J.~Koster, {MUMPS}: A general
+  purpose distributed memory sparse solver, in: International Workshop on
+  Applied Parallel Computing, Springer, 2000, pp. 121--130.
+
+\bibitem{munson2014toolkit}
+T.~Munson, J.~Sarich, S.~Wild, S.~Benson, L.~McInnes, Toolkit for advanced
+  optimization {(TAO)} users manual, Tech. rep., Technical Report No.
+  ANL/MCS-TM-322-Revision 3.5 (Argonne National Laboratory, 2014) (2014).
+
+\bibitem{petsc-user-ref}
+S.~Balay, S.~Abhyankar, M.~F. Adams, J.~Brown, P.~Brune, K.~Buschelman,
+  L.~Dalcin, V.~Eijkhout, W.~D. Gropp, D.~Kaushik, M.~G. Knepley, D.~A. May,
+  L.~C. McInnes, R.~T. Mills, T.~Munson, K.~Rupp, P.~Sanan, B.~F. Smith,
+  S.~Zampini, H.~Zhang, H.~Zhang, {PETS}c users manual, Tech. Rep. ANL-95/11 -
+  Revision 3.9, Argonne National Laboratory (2018).
+
+\bibitem{bilgen2018phase}
+C.~Bilgen, A.~Kopani{\v{c}}{\'a}kov{\'a}, R.~Krause, K.~Weinberg, A phase-field
+  approach to conchoidal fracture, Meccanica 53~(6) (2018) 1203--1219.
+
+\end{thebibliography}

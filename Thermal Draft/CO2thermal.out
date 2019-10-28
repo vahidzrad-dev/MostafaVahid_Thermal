@@ -1,0 +1,13 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Mathematical model}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Porous medium deformation and fracture propagation}{section.2}% 3
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Variational formulation of brittle fracture}{subsection.2.1}% 4
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Regularized variational formulation of brittle fracture}{subsection.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Carbon dioxide as a compressible fluid}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Energy balance equation}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.4}{Summary of governing equations}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Numerical solution}{}% 9
+\BOOKMARK [1][-]{appendix.A}{Weak forms }{}% 10
+\BOOKMARK [2][-]{subsection.A.1}{Porous medium}{appendix.A}% 11
+\BOOKMARK [2][-]{subsection.A.2}{Compressible \(CO2\) fluid flow discretization}{appendix.A}% 12
+\BOOKMARK [2][-]{subsection.A.3}{Energy balance}{appendix.A}% 13

@@ -1,0 +1,201 @@
+\section{Numerical solution}\label{sec:Num_Sol}
+In this section we present an algorithm that adopts standard procedures to obtain a numerical method to solve the initial boundary value problem presented in Section \ref{sec:Math_model}. %\deleted{In the sequel we will introduce the discrete formulations in {Sections\ref{sub:weak_porous} and \ref{sec:CO2-discretization}, for the porous medium and fluid flow respectively. Note that we adopt a staggered approach to solve the coupled problem.}
+%\subsection{Porous medium}
+%\deleted{Here, to facilitate the numerical computation with the FEM, in \ref{sub:weak_porous} we first state the weak form. Then in \ref{sub:spatial_porous} we present the spatial discretization for the porous medium.}
+%\deleted{We choose $0=t_0<t_1<\ldots<t_N=\replaced{t_f}{T}$ and seek the solution at these discrete instants. We will adopt the backward Euler method for time discretization. Now we detail how we advance from time step $n-1$ to $n$. For later convenience, let $\Delta t_n := t_n - t_{n-1}$ for $n=1,\ldots,N$. \added{As we use the same time steps,} when there is no risk of confusion, the subscript $n$ will be dropped. \replaced{It implies}{Moreover,} the field $p$ will wear a superscript $n-1$ if it refers to the solution at $t_{n-1}$, but will have no superscript if it refers to the solution at the current time step, i.e., $t_n$.} % With this specific, \eqref{Eq:General_pressure} is discretized as:
+%\subsection{\deleted{Numerical algorithm}}\label{sec:Num_algo}
+%\todo[inline]{YS: It is more appropriate to make Section \ref{sec:Num_algo} a subsection of Section \ref{sec:Num_Sol}.\\
+%Vahid: Now it is a subsection.}
+%\todo[inline]{YS: There is no clear cut comparison between monolithic and staggered approaches. Why don't we just mention how we do it and avoid commenting on the monolithic approach?\\Vahid: I agree the advantage is not so clear, but shouldn't we justify why we chose the staggered algorithm then? Now I deleted the comparison part though. See below.}
+In this algorithm, a staggered approach is employed to solve the underlying equations, i.e., the solution is obtained via iteration between the variables \cite{Bourdin2000797,bourdin2008variational}. This idea is based on the fact that by fixing two variables, the problem becomes convex in the remaining unknown. However, one drawback for such an approach is that it might need many iterations to achieve convergence among the three fields.
+
+For the problem at hand, we need to solve a coupled system consisting of mass balance for the compressible fluid and a dissipative potential energy with the phase field. We provide a fully iterative approach in which at each stage we solve for one unknown while the other two variables are fixed to their values at the last iteration. Readers are referred to Algorithm \ref{Alg:Co_2_fracking} for complete elaboration.
+
+%\RestyleAlgo{algoruled} 
+%\LinesNumbered
+%\begin{algorithm}[htbp]
+%	\caption{Algorithm for modeling the CO$_2$ by phase field.} \label{Alg:Co_2_fracking}
+%	
+%	\KwIn{  $\bm{u}_0$, $d_{0}$, $p_{0}$, $\rho_0$, $T_0$,  and $\varepsilon_{\text{tol}}$}
+%	\KwOut{  $\bm{u}_n$, $d_n$, $p_n$, $T_n$, and $n= 1, \cdots,N $}
+%	
+%	%Construct $d$-field, $d_0$;\\
+%	Set mechanical, flow, and thermal boundary conditions $\sigma_1$, $\sigma_3$, $Q_f$, and $Q_T$;\\
+%	%Set $n=1$;\\
+%	
+%	\For()
+%	{ {$n= 1 ~ to~ N$};  }{Set  $t=n\Delta t$ and $i=0$; \tcc{$i$ is an iteration counter}
+%		
+%		{\Repeat( ){$\varepsilon_d=\left\| d_n^{\left( m\right) }-d_{n}^{\left( m-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}}$ }
+%			{ 
+%				$m=0$; \tcc{$m$ is another iteration counter}
+%				
+%				
+%				
+%				
+%				{\Repeat( ){   $\left\| p_n^{\left( i\right) }-p_{n}^{\left( i-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}} ~\textbf{and}~ \left\| \bm{u}_n^{\left( i\right) }-\bm{u}_{n}^{\left( i-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}}$  }
+%					{
+%						Step - P: compute $p_n$ with \eqref{Eq:waekform_p};\\
+%						Step - U: compute $\bm{u}_{n}$ with \eqref{Eq:Residual_i};\label{line:compute_u}\\
+%						
+%						
+%						
+%						Update $ \rho_n^{\left( i+1\right) } \leftarrow \rho(p_n^{\left( i\right) })$ with \eqref{Eq:Density_Pressure};\\
+%						
+%						$i+1 \leftarrow i$
+%					}
+%				}
+%				
+%				
+%				Step - d: compute $d_n$ with \eqref{Eq:Residual_ii}; \\
+%				$m+1 \leftarrow m$
+%			}
+%		}
+%		
+%		$\bm{u}_{n-1} \leftarrow \bm{u}_n$;\\ 
+%		$p_{n-1} \leftarrow p_n$;\\ 
+%		$\rho_{n-1} \leftarrow \rho_n$;\\ 
+%		%$n+1 \leftarrow n$
+%	}
+%	
+%\end{algorithm}
+
+\RestyleAlgo{algoruled} 
+\LinesNumbered
+\begin{algorithm}[htbp]
+	\caption{Algorithm for modeling the CO$_2$ by phase field.} \label{Alg:Co_2_fracking}
+	
+	\KwIn{  $\bm{u}_0$, $d_{0}$, $p_{0}$, $\rho_0$, $T_0$,  and $\varepsilon_{\text{tol}}$}
+	\KwOut{  $\bm{u}_n$, $d_n$, $p_n$, $T_n$, and $n= 1, \cdots,N $}
+	
+	%Construct $d$-field, $d_0$;\\
+	Set mechanical, flow, and thermal boundary conditions $\sigma_1$, $\sigma_3$, $Q_f$, and $Q_T$;\\
+	%Set $n=1$;\\
+	
+	\For()
+	{ {$n= 1 ~ to~ N$};  }{Set  $t=n\Delta t$ and $i=0$; \tcc{$i$ is an iteration counter}
+		
+%		{\Repeat( ){$\left\| p_n^{\left( i\right) }-p_{n}^{\left( i-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}}$}
+%			{ 
+				$m=0$; \tcc{$m$ is another iteration counter}
+				
+				
+				
+				
+				{\Repeat( ){   $\left\| \bm{u}_n^{\left( i\right) }-\bm{u}_{n}^{\left( i-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}} ~\textbf{and}~ \left\| d_n^{\left( i\right) }-d_{n}^{\left( i-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}}$  }
+					{
+						Step - U: compute $\bm{u}_{n}$ with \eqref{Eq:Residual_i};\label{line:compute_u}\\
+						Step - d: compute $d_n$ with \eqref{Eq:Residual_ii}; \\
+						
+%						Update $ \rho_n^{\left( i+1\right) } \leftarrow \rho(p_n^{\left( i\right) })$ with \eqref{Eq:Density_Pressure};\\
+						
+						$i+1 \leftarrow i$
+					}
+				}
+				
+				{\Repeat( ){   $\left\| p_n^{\left( m\right) }-p_{n}^{\left( m-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}} ~\textbf{and}~ \left\| T_n^{\left( m\right) }-T_{n}^{\left( m-1\right) } \right\|_{2}  <\varepsilon_{\text{tol}}$  }
+				{
+					Step - P: compute $p_n$ with \eqref{Eq:waekform_p};\\
+				
+%					Update $ \rho_n^{\left( i+1\right) } \leftarrow \rho(p_n^{\left( i\right) })$ with \eqref{Eq:Density_Pressure};\\
+					
+					Step - T: compute $T_n$ with \eqref{Eq:waekform_T};\\
+					
+					Update $ \rho_n^{\left( m+1\right) } \leftarrow \rho(p_n^{\left( m\right) })$ with \eqref{Eq:Density_Pressure};\\
+					
+					$m+1 \leftarrow m$
+				}
+			}
+			%}
+		%}
+		
+		$\bm{u}_{n-1} \leftarrow \bm{u}_n$;\\ 
+		$p_{n-1} \leftarrow p_n$;\\ 
+		$\rho_{n-1} \leftarrow \rho_n$;\\ 
+		$T_{n-1} \leftarrow T_n$;\\ 
+		%$n+1 \leftarrow n$
+	}
+	
+\end{algorithm}
+%\todo[inline]{YS: $d\in[0,1]$ is a wrong way to write it. The correct way is $0\le d\le 1$. Because $d$ is a function, not a single real number.\\
+%Vahid: OK. So you have fixed it.}
+
+%\todo[inline]{YS: How do we know we are using the active set method? Even if yes, why do we need to explain such a classical one? I tend to believe no; we should just mention the algorithm(s) within FEniCS we have chosen for the constrained minimization.\\Vahid: I removed the whole paragraph then. Where we name the TAO solver, I just mentioned that the solver itself imposes the lower bound.}
+%
+%\deleted{To ensure that $0\le d\le 1$ and also the inequality constraint \eqref{Eq:irreversibility} are imposed on the phase field, there are mainly three kinds of approaches: (a) the active-set method, (b) the penalty method \cite{gerasimov2015line} and (c) the augmented Lagrangian method \cite{Wheeler201469}. Now we briefly explain the active-set method, which we use: For each loading step, one needs to check the constraints after the stopping criterion for iteration is achieved. If no constraint is violated, then continue the computation for the next load step; otherwise, find those points that violate the constraints and set them to the appropriate upper or lower bounds for further iteration until all the constraints are satisfied.}
+%
+%%\todo[inline]{YS: As we have cited \cite{Logg2012}, there is no need to explain so much about FEniCS. Just keep the essence, which is the 3rd sentence below. Also ``takes care of'' is too colloquial for a paper.\\
+%%	Vahid: Now I deleted the auxiliary explanations.\\
+%%	YS: I objected the advertisement-like wordings for FEniCS. I changed them to neutral ones. Still I prefer simplifying the description by saying that all we need to input are the functional and its first and second derivatives and the constraints.}
+
+We implement our method on FEniCS, an open-source finite element software \cite[pp.~173--225]{Logg2012}. Therein, the user merely needs to provide the variational form of the problem as well as the geometry and mesh information. Then, a big advantage of FEniCS is that the software itself completes all steps toward generating the global stiffness matrix.
+
+%\todo[inline]{YS: Why don't we use line numbers to explain? Vahid: I included the line numbers for the code. The explanations are also modified accordingly.}
+
+%\todo[inline]{YS: The upcoming three paragraphs are NOT coherent, although individually well written. Put more thoughts on their order and necessary link words.\\Vahid: It should look better now.}
+
+Below we show an excerpt of the used FEniCS code. This piece of code performs some calculations for line \ref{line:compute_u} in Algorithm \ref{Alg:Co_2_fracking} wherein $\bm{u}$ is solved for while the other two unknowns are fixed. It first defines $\bm{\varepsilon}$, $\psi_0$, and $\psi(\bm{\varepsilon},d)$ in lines 1, 3, and 5, respectively. Then, the standard finite element shape functions are defined in line 8, and the admissible function space (\texttt{TrialFunction}), the test function space (\texttt{TestFunction}), and the unknown function $\bm{u}$ (\texttt{Function}) are defined in line 9. Afterwards, the elastic energy is introduced as a variational form in line 11. Finally, in lines 12 and 13, the code takes the first variation $\delta\Pi[(\bm{u},d);\Bar{\bm{u}}]$ \eqref{Eq:Residual_u} and the second variation $\delta^2\Pi[(\bm{u},d);\Bar{\bm{u}};\delta\bm{u}]$ \eqref{Eq:Tangent_u} and builds the nodal residual vector as \texttt{Residual\_u} and the tangent stiffness matrix as \texttt{Jacobian\_u}.
+\begin{lstlisting}
+def eps(u_):
+return sym(grad(u_))
+def psi_0(u_):
+return  0.5 * lmbda * tr(eps(u_))**2 + mu * eps(u_)**2
+def psi_(u_, d_):
+return (1 - d_)**2 * psi_0(u_)
+
+V_u = VectorFunctionSpace(mesh, "CG", 1)
+u_, u, u_t = Function(V_u), TrialFunction(V_u), TestFunction(V_u)
+
+energy_elastic = psi_(u_, d_) * dx
+Residual_u = derivative(energy_elastic, u, u_t)
+Jacobian_u = derivative(Residual, u_, u_t)
+\end{lstlisting}
+
+
+
+%\todo[inline]{YS: This is too lengthy, and ``pick up'' is too colloquial.\\Vahid: Replaced by a more brief paragraph.}
+To solve the three unknowns, we select for $\bm{u}$ and $p$ the linear solver MUMPS which is convenient for solving large linear systems \cite{amestoy2000mumps}, and for $d$ the TAO optimization solver integrated into the PETSc library \cite{munson2014toolkit, petsc-user-ref}, which has the capability of solving inequality constrained optimization problems as the one at hand. Interested readers are referred to \cite{bilgen2018phase} for more information about the applied solvers.
+%{As we solve for each unknowns separately, we can choose different solvers. Thus, for $\bm{u}$ using Newton's method, we pick up a linear solver like MUMPS which is convenient for the solution of large linear systems \cite{amestoy2000mumps}. For $d$, however, \eqref{Eq:Euler_d} is solved using the TAO optimization solver which is integrated into the PETSc library \cite{munson2014toolkit}, \cite{petsc-user-ref}. The fluid flow sub problem is also solved with standard Newton's method with MUMPS. Interested readers are referred to \cite{bilgen2018phase} for more elaborative information about the used solvers.}
+%{As we solve for each unknowns separately, we can choose different solvers. Thus, for $\bm{u}$ using Newton's method, we pick up a linear solver like MUMPS which is convenient for the solution of large linear systems \cite{amestoy2000mumps}. For $d$, however, \eqref{Eq:Euler_d} is solved using the TAO optimization solver which is integrated into the PETSc library \cite{munson2014toolkit, petsc-user-ref}. The fluid flow sub problem is also solved with standard Newton's method with MUMPS. Interested readers are referred to \cite{bilgen2018phase} for more elaborative information about the used solvers.}
+%\todo[inline]{Mostafa: The statement below is deleted since we update the parameters in each iteration according to the pressure in the last iteration, not last time step.}
+%\deleted{To end this session, it is also worth mentioning that although the density $\rho$ and $\replaced{\mathcal{N}}{N}$ (See Eq. \eqref{Eq:General_pressure}) are functions of $p$, for sake of simplicity and fast numerical computation, in our algorithm they are only updated once at each time interval.}
+
+%\todo[inline]{YS: What is the difference between Algorithms 1 and 2? Also for $n$, if we can use \texttt{For}, I will prefer it over \texttt{Repeat...Until}.\\Vahid: I am discussing with Mostafa to find the best algorithm.}
+
+%\RestyleAlgo{algoruled} 
+%\LinesNumbered
+%\begin{algorithm}[htbp]
+%	\caption{Algorithm for modeling the CO$_2$ by phase field.} \label{Alg:Co_2_fracking}
+%	
+%	\KwIn{  $p_{0}$, $d_{0}$, $\bm{u}_0$, and $\rho_0$}
+%	\KwOut{  $p_n^{\left( k\right)}$, $d_n^{\left( k\right)}$, and $\bm{u}_n^{\left( k\right)}$, {for $n= 1, \cdots,N $}}
+%	
+%	%Construct $d$-field, $d_0$;\\
+%	Set flow and mechanical boundary conditions ({$\sigma_1$}, {$\sigma_3$}, and {$Q_g$});\\
+%	%Set $n=1$;\\
+%	
+%	\For()
+%	{ {$n=1~\textbf{to}~ N$};  }{Set  $t=n\Delta t$, and $k=0$, {where $k$ is iteration counter};\\ 
+%		Step - P: compute $p_n^{\left( k\right)}$, \eqref{Eq:weak_pressure};\\
+%						$ \rho_n \leftarrow \rho(p_n), \eqref{Eq:Density_Pressure}$\\
+%		{\Repeat( ){   $\varepsilon_d=\left\| d_n^{k}-d_{n}^{k-1} \right\|_{2}  <\varepsilon_{\text{tol}}$ }
+%			{ 
+%				
+%				
+%				Step - U: compute $\bm{u}_{n}^{\left( k\right)}$, \eqref{Eq:Residual} ;\\
+%				Step - d: compute $d_n^{\left( k\right)}$, \eqref{Eq:Residual}; \\
+%
+%
+%				
+%				$k+1 \leftarrow k$
+%			}
+%		}
+%		
+%		$p_{n-1} \leftarrow p_n^{\left( k\right)}$;\\ 
+%		$\rho_{n-1} \leftarrow \rho_n$;\\ 
+%						$\bm{u}_{n-1} \leftarrow \bm{u}_n^{\left( k\right)}$;\\
+%		%$n+1 \leftarrow n$
+%		}
+%	
+%\end{algorithm}
+

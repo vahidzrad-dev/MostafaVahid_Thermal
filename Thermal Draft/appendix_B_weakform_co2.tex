@@ -1,0 +1,238 @@
+\section{Weak forms }\label{sub:weak_form}
+Here we provide weak forms useful for FEniCS implementation.
+
+\subsection{Porous medium} \label{sub:weak_porous}
+To proceed, let the test function spaces be
+\begin{equation*}
+    \begin{aligned}
+        \mathscr{V}_u &:= \left\{\bar{\bm{u}}\in H^1\left(\Omega; \mathbb{R}^2\right) \middle|
+        \bar{\bm{u}} = \mathbf{0} \text{ on } \Gamma_D
+        \right\},\\
+        %\mathscr{V}_d &:=\left\{\bar{d}\in H^1\left(\Omega; \mathbb{R}\right) \middle|
+        %\bar{d} = {0} \text{ on } \Gamma_d
+        %\right\},
+        \mathscr{V}_d &:= H^1(\Omega).
+    \end{aligned}
+\end{equation*}
+%\todo[inline]{YS: It may look better by writing \eqref{Eq:Residual} as two equations, one obtained by taking the first variation of $\bm{u}$ and the other of $d$.\\
+%Mostafa: Done}
+Then we derive the first variations of the energy functional \eqref{Eq:Dissipative_functional}, which will be needed for stating the weak form:
+%\begin{subequations} \label{Eq:Residual}
+%    \begin{align}
+%	    \begin{split}
+%	    \label{Eq:Residual_u}\delta \Pi_\ell & \left[(\bm{u}, d); \bar{\bm{u}} \right]
+%	    := \int_\Omega \bm{\sigma}[\bm{\varepsilon}(\bm{u}), d] : \bm{\varepsilon}(\bar{\bm{u}}) \;d\Omega - \int_{\Gamma_N} \bm{t}_N\cdot \bar{\bm{u}} \; d\Gamma - \int_\Omega \bm{b} \cdot\bar{\bm{u}}\; d\Omega \\
+%	    &+\int_{\Omega} \left(\alpha-1\right) \nabla \left((1-d)^2  {p}\right) \cdot \bar{\bm{u}} \; d\Omega + \int_{\Omega}  {\left(1 - d\right)}^2\nabla {p}\cdot \bar{\bm{u}}  \; d\Omega
+%	    \end{split}\\
+%	    \begin{split}
+%	     \label{Eq:Residual_d}\delta \Pi_\ell & \left[(\bm{u}, d);  \bar{d} \right]
+%	    	    := \int_{\Omega} \left(\alpha-1\right)g'(d)\bar{d} {p} \divergence{\bm{u}} \; d\Omega +	\int_{\Omega} g'(d)\bar{d}   \nabla {p} \cdot {\bm{u}} \; d\Omega 
+%        \\
+%	    & + \int_\Omega g'(d) \psi_+(\bm{\varepsilon}) \bar{d}  \; d\Omega +
+%	    \frac{g_c}{4c_w} \int_\Omega  \left(\frac{\omega'(d)\;\bar{d}}{\ell} + 2\ell \nabla d\cdot\nabla \bar{d} \right)\;d\Omega.
+%	    \end{split}
+%	\end{align}
+%\end{subequations}
+\begin{subequations} \label{Eq:Residual}
+	\begin{align}
+	\begin{split}\label{Eq:Residual_i}
+	\Pi_\ell &\left[(\bm{u}, d); \bar{\bm{u}} \right]:= \\&
+	\int_{\Omega} \mathbb{C}\Big\langle(1-d)\vol[\bm{\varepsilon}_e(\bm{u})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{+}:\Big\langle(1-d)\vol[\bm{\varepsilon}_e(\bar{\bm{u}})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{+}\; d\Omega \\&+
+	\int_{\Omega}\mathbb{C}\Big\langle\vol[\bm{\varepsilon}_e(\bm{u})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{-}:\Big\langle\vol[\bm{\varepsilon}_e(\bar{\bm{u}})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{-}\; d\Omega \\&+
+	\int_{\Omega} g(d)\mathbb{C}\dev[\bm{\varepsilon}_e({\bm{u}})]:\dev[\bm{\varepsilon}_e(\bar{\bm{u}})]\; d\Omega,
+%	+\frac{G_c}{4c_{w}}\int_\Omega \left(\frac{w(d)}{\ell} + \ell \nabla d\cdot\nabla d\right)\;d\Omega- W(\bar{\bm{u}}),
+	\end{split}\\
+	\begin{split}\label{Eq:Residual_ii}
+	\delta \Pi_\ell & \left[(\bm{u}, d);  \bar{d} \right]:=\\&
+	\int_{\Omega} \mathbb{C}\Big\langle(d-1)\vol[\bm{\varepsilon}_e(\bm{u})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{+}:\Big\langle\bar{d}\vol[\bm{\varepsilon}_e(\bm{u})]-\frac{\alpha}{3K}p\mathbf{1}\Big\rangle_{+}\; d\Omega \\&+
+	\int_{\Omega} g'(d)\bar{d}~\mathbb{C}\dev[\bm{\varepsilon}_e({\bm{u}})]:\dev[\bm{\varepsilon}_e({\bm{u}})]\; d\Omega\\&+
+	\frac{G_c}{4c_{\omega}} \int_\Omega  \left(\frac{\omega'(d)\;\bar{d}}{\ell} + 2\ell \nabla d\cdot\nabla \bar{d} \right)\;d\Omega.
+	\end{split}
+	\end{align}
+\end{subequations}
+The weak form can thus be stated as: Find $\left(\bm{u}\times d \right)\in\mathscr{S}_{\bm{u}}\times\mathscr{S}_d$, such that for all admissible functions $\left(\bar{\bm{u}}\times\bar{d} \right)\in\mathscr{V}_{\bm{u}}\times\mathscr{V}_d$, $\delta\Pi_\ell\left[(\bm{u},d); \bar{\bm{u}}\right]=0$ and $\delta\Pi_\ell\left[(\bm{u},d); \bar{d}\right]=0$.
+
+%\todo[inline]{YS: The second variation should also be written as two expressions, $ \delta^2 \Pi_\ell \left[(\bm{u}, d); \bar{\bm{u}}, \delta \bm{u}\right]$ and $\delta^2 \Pi_\ell \left[(\bm{u}, d); \bar{d}, \delta d\right]$, because we are doing a staggered algorithm.}
+\todo{I should check the second variations.}
+Also we take another variation from \eqref{Eq:Dissipative_functional} which will be needed for the discretized formulation:
+\begin{subequations}\label{Eq:Tangent}
+\begin{align}\label{Eq:Tangent_u}
+\begin{split}
+        \delta^2 \Pi_\ell & \left[(\bm{u}, d); \bar{\bm{u}}, \delta \bm{u}\right]
+        = \int_\Omega \bm{\varepsilon}(\delta\bm{u}): \mathbb{C}[\bm{\varepsilon}(\bm{u}), d] : \bm{\varepsilon}(\bar{\bm{u}})  \;d\Omega,
+        \end{split}\\
+        \begin{split}
+	            \delta^2 \Pi_\ell & \left[(\bm{u}, d);  \bar{d},  \delta d\right]
+	    =  \int_\Omega \delta d \;g''(d) \psi_+(\bm{\varepsilon}) \bar d \; d\Omega\\ 
+	    & +\int_{\Omega} \left(\alpha-1\right) g''(d)\bar{d} \; \delta d \; {p} \divergence {{\bm{u}}} \; d\Omega +\int_{\Omega}  g''(d)\bar{d} \; \delta d \; \nabla {p} \cdot {{\bm{u}}} \; d\Omega 
+	    \\& +
+	    \frac{G_c}{4c_w} \int_\Omega  \left[\frac{\delta d \; w''(d) \bar{d}}{\ell} + 2\ell \nabla (\delta d) \cdot \nabla \bar d \right]\;d\Omega,
+	    \end{split}
+\end{align}
+\end{subequations}
+where the fourth-order tensor $\mathbb{C}[\bm{\varepsilon}(\bm{u}), d] = \left.\frac{\partial \bm{\sigma}(\bm{\varepsilon}, d)}{\partial \bm{\varepsilon}}\right|_{\bm{\varepsilon}=\bm{\varepsilon}(\bm{u})}$ is the tangent elasticity tensor.
+
+%\todo[inline]{YS: It looks like we don't need the following content until the beginning of Section \ref{sec:CO2-discretization}.\\
+%	YS: After discussing with Mostafa on October 4, I think a better idea is, since we are using FEniCS, to keep the weak form and Jacobian in an appendix, and remove equations like \eqref{Eq:discretization} and \eqref{Eq:p_discretized}, and also remove \eqref{Eq:Residual_disc} and also the matrix formulations after it.\\Vahid: If I understood you correctly, you mean we do not need the entire subsection named ``Spatial discretization of porous medium'' \ref{sub:spatial_porous} anymore, right? I still kept the material in the tex file, and the title here though. I also changed \ref{sec:CO2-discretization} according to your comment.}
+%\subsubsection{Spatial discretization of porous medium}\label{sub:spatial_porous}
+%%\todo[inline]{YS: If we use a triangular mesh, then the shape functions cannot be $Q_1$.\\
+%%Vahid: Yes. $Q_1$ is omitted now.}
+%To discretize the problem, we divide $\Omega$ with a quasi-uniform mesh $\mathscr{T}_h$ of triangular elements for two dimensions, each member characterized by the mesh size $h$. 
+%Let $\eta$ be the set of nodes of $\mathscr{T}_h$. We approximate $(\bm{u},d)$ with the standard {$P_1$} finite element basis functions associated with all nodes $i \in\eta$:
+%\begin{equation}\label{Eq:discretization}
+%    \begin{aligned}
+%        \bm{u}(x)=\sum_{i\in\eta} \bm{N}^{\bm{u}}_{i}(x) \mathbf{u}_i,\\
+%	    d(x)=\sum_{i\in\eta}N_i(x) d_i,\\
+%	\end{aligned}
+%\end{equation}
+%where $u_i$, and $d_i$ are the displacement and phase field values at node $i$, respectively; and $\bm{N}^{\bm{u}}_{i}$ is given by
+%\begin{equation*}
+%    \begin{aligned}
+%        \bm{N}^{\bm{u}}_{i}=\left[
+%		\begin{array}{c c}
+%			N_i &  0 \\
+%			0 & N_i
+%		\end{array}
+%		\right],
+%    \end{aligned}
+%\end{equation*}
+%where $N_i$ is the associated standard finite element shape function for each $i\in\eta$, satisfying $N_j(x_i)=\delta_{ji}$, for all $j\in\eta$, and $x_i, \mathbf{u}_i\in\mathbb{R}^{2}$ are its position vector and nodal displacement vector, respectively. The set $\eta_D \subset \eta$ is the set of nodes on  $\Gamma_D$, i.e., if $i\in\eta_D$, $\mathbf{u}_i = \mathbf{u}_D(x_i)$. The unknowns to solve are thus $\mathbf{u}_i$ for $i\in\eta\setminus\eta_D$, and $d_i$ for all $i\in\eta$. Note that we also apply the same discretization to the test functions.
+%
+%\paragraph{Discretized weak form} Let $\mathbf{u}\in\mathbb{R}^{2\;\#\eta}$, $d\in\mathbb{R}^{\#\eta}$ contain all entries of $\mathbf{u}_i$, ${d}_i$, respectively, for all $i\in\eta$. The discretized weak form can be written as $\mathbb{U}_i (\mathbf{u}):= \delta \Pi (\bm{u}; \bm{N}_i)=\mathbf{0}$, for all $i\in\eta\setminus\eta_D$, and $\mathbb{D}_i({d}):=\delta\Pi ({d}; {N}_i)=0$ for all $i\in\eta$. %, where $\mathbf{R}_A$. 
+%Hence, the residual matrices form of \eqref{Eq:Residual} are expressed as follows:
+%
+%\begin{equation}\label{Eq:Residual_disc}
+%	\begin{aligned}
+%		\mathbb{U}_i & = \int_\Omega (\bm{B}_i)^T \bm{\sigma}[\bm{\varepsilon}(\bm{u}), d] \;d\Omega - \int_{\Gamma_N} (\bm{N}^{\bm{u}}_{i})^T\bm{t}_N \; d\Gamma - \int_\Omega (\bm{N}^{\bm{u}}_{i})^T\bm{b} \; d\Omega\\ &\quad +\int_{\Omega} (\alpha-1)\nabla\left((1-d)^2 \replaced{p}{p_B}\right) \cdot (\bm{N}^{\bm{u}}_{i}) \; d\Omega +\int_{\Omega}  (\bm{N}^{\bm{u}}_{i})^T {\left(1 - d\right)}^2\nabla \replaced{p}{p_B}  \; d\Omega\\
+%	    \mathbb{D}_i &= \int_\Omega g'(d) \psi_+(\bm{\varepsilon}) N_i \; d\Omega + \frac{g_c}{4c_w} \int_\Omega  \left(\frac{w'(d) N_i}{\ell} + 2\ell \nabla d \cdot \nabla N_i \right)\;d\Omega \\& \quad+\int_{\Omega} \left(\alpha-1\right)g'(d)N_i \;\replaced{p}{p_B} \nabla \bm{u} \; d\Omega +	\int_{\Omega} g'(d) N_i \nabla \replaced{p}{p_B} \cdot \bm{u} \; d\Omega,
+%	\end{aligned}
+%\end{equation}
+%where $\mathbb{U}_i\in\mathbb{R}^2$ and $\mathbb{D}_i \in\mathbb{R}$ represent the nodal residual vectors (also called the \emph{nodal forces} of $i$) obtained with displacement test function and phase field test function, respectively. 
+%Also note that in \eqref{Eq:Residual_disc}, $\bm{\sigma}$ is understood as a 3-vector, % in 3D.
+%and the strain-displacement matrices are given by:
+%\begin{equation*}
+%    \bm{B}_i=\left[
+%	\begin{array}{c c}
+% 	N_{i,x} &  0\\
+% 	0 & N_{i,y} \\
+% 	N_{i,y} & N_{i,x} \\
+% 	\end{array}
+% 	\right].
+%\end{equation*}
+%
+%\paragraph{Tangent stiffness matrices} If a staggered algorithm is used, the tangent stiffness matrices form of \eqref{Eq:Tangent} are $\mathbf{K}_{ij}:=\partial\mathbb{U}_i/\partial\mathbf{u}_j=\delta^2\Pi[\bm{u};\bm{N}^{\bm{u}}_i, \bm{N}^{\bm{u}}_j]\in \mathbb{R}^{2\times 2}$ for all $i,j\in\eta\setminus\eta_D$ and $ \bar{\bm{K}}_{ij} :=\partial\mathbb{D}_i/\partial {d}_j=\delta^2\Pi[{d};{N}_i, {N}_j]\in \mathbb{R}$ for all $i,j\in\eta$, which can be expressed as follows:
+%\begin{subequations}
+%    \begin{align}
+%        \bm{K}_{ij} &= \int_\Omega (\bm{B}_i)^T \bm{D} \bm{B}_j \;d\Omega,\\
+%    \begin{split}
+%        \bar{\bm{K}}_{ij} &= \int_\Omega \;g''(d) \psi_+(\bm{\varepsilon}) N_i N_j\; d\omega
+%        + \int_{\Omega} g''(d) N_i \; N_j \; \nabla \replaced{p}{p_B} \cdot {{\bm{u}}} \; d\Omega 
+%	    \\ &+ \frac{g_c}{4c_w} \int_\Omega \left[\frac{w''(d) N_i \; N_j}{\ell} + 2\ell \nabla N_i \cdot \nabla N_j \right]\;d\Omega,
+%    \end{split}
+%    \end{align}
+%\end{subequations}
+%where denote by $\mathbf{D}$ the matrix forms of the tangent elastic modulus tensor $\mathbb{C}$. Below we give $\mathbf{D}$ for different phase field models:
+%\paragraph{Model A} We have $\mathbf{D}_+=\mathbf{D}_0$ and $\mathbf{D}_-=\mathbf{0}$ 
+%where $\mathbf{D}_0$ for the plane strain case is defined as:
+%\begin{equation*}\label{Eq:D_0}
+%	    \bm{D}_{0} = \begin{bmatrix} 
+%	    \lambda+2\mu & \lambda & 0 \\
+%	    \lambda & \lambda+2\mu & 0 \\
+%	    0 & 0 & \mu
+%	   \end{bmatrix}.
+%\end{equation*}
+% 
+%\paragraph{Model B} Let $\mathbf{1}$, be the $3\times3$ identity matrix. Then
+%\[\begin{aligned}
+%\mathbf{D}_+ &= KH(\trace\bm{\varepsilon}) \begin{bmatrix}
+%1 & 1 & 0 \\
+%1 & 1 & 0 \\
+%0 & 0 & 1 
+%\end{bmatrix} + 2\mu\left(\mathbf{1} - \frac13\begin{bmatrix}
+%1 & 1 & 0 \\
+%1 & 1 & 0 \\
+%0 & 0 & 1 
+%\end{bmatrix} \right),\\
+%\mathbf{D}_- &= KH(-\trace\bm{\varepsilon}) \begin{bmatrix}
+%1 & 1 & 0 \\
+%1 & 1 & 0 \\
+%0 & 0 & 1 
+%\end{bmatrix} .
+%\end{aligned}\]
+%
+%Here, $H$ is the Heaviside function such that $H(a)=1$ if $a>0$, $H(a)=0$ if $a<0$, and $H(a)=\frac12$ if $a=0$.
+
+%\subsection{Compressible (CO$_2$) fluid flow}
+
+\subsection{Compressible (CO$_2$) fluid flow discretization}
+\label{sec:CO2-discretization}
+The compressible fluid flow discretization is also done via the finite element method. We first discretize in time and then in space. We will adopt the backward Euler method for time discretization.
+
+%\todo[inline]{YS: The same time steps or no?\\
+%Vahid: Yes, the same time step. Look the changed sentence below in blue for the changes.\\
+%YS: No! We cannot first introduce the discrete times and then after a few lines we say they are equally spaced. If they are equally spaced, then we say that up front! We first decide on the number of time steps, and then the discrete times and the time step are determined.\\
+%Vahid: All parts are removed now.\\
+%Another point: The notation $N$ is conflicted.\\
+%Vahid: All parts are removed now.}
+%\todo[inline]{YS: I suggest we keep $k(d)$ all along, instead of writing $k_0\exp(7d)$, to leave flexibility in the choice of the model.\\
+%Vahid: OK. Now the relevant equation \eqref{Eq:weak_pressure} is modified.}
+%\paragraph{Time discretization}
+%\replaced{hi}{We choose $0=t_0<t_1<\ldots<t_N=\replaced{t_f}{T}$ and seek the solution at these discrete instants. We will adopt the backward Euler method for time discretization. Now we detail how we advance from time step $n-1$ to $n$. For later convenience, let $\Delta t_n := t_n - t_{n-1}$ for $n=1,\ldots,N$. \added{As we use the same time steps,} when there is no risk of confusion, the subscript $n$ will be dropped. \replaced{It implies}{Moreover,} the field $p$ will wear a superscript $n-1$ if it refers to the solution at $t_{n-1}$, but will have no superscript if it refers to the solution at the current time step, i.e., $t_n$.} With this specific, \eqref{Eq:General_pressure} is discretized as:
+
+
+%\begin{equation} \label{Eq:General_pressure_time_discrete}
+ %   \begin{aligned}
+  %      \frac{\phi}{{N}}\frac{ p-p^{n-1}}{\Delta t}+\rho \dfrac{ \varepsilon_v-\varepsilon_v^{n-1}}{\Delta t}
+%		\added{-\frac{1}{\mu}\left[\frac{k}{N}\left|\nabla p\right|^2+k\rho\Delta p+\rho\nabla k\cdot \nabla p\right]}=Q_g \; \;on \;\Omega,
+%    \end{aligned}
+%\end{equation}
+%\Comment{YS: The equation $p \in H^1(\Omega; \mathbb{R})$ should read $p \in H^1 (\Omega)$}
+
+%\todo[inline]{YS: Mostafa, this paragraph is taken from our previous paper. Now we are solving EQUATIONS instead of inequalities, then there is no need to say ``necessary condition.''\\Mostafa: Right. It's deleted.}
+%\todo[inline]{YS: How come we have $\Gamma_B$? Is it part of $\partial \Omega$? This should have appeared in Section \ref{sec:Math_model}.\\Vahid: The related part is removed now. We have defined $\Gamma_B$ in Section \ref{sec:Math_model}.}
+%\todo[inline]{YS: Why do we use $\delta p$ here but $\overline{\bm{u}}$ and $\overline{d}$? It looks like the latter is better as $\delta$ is also used in the EOS.\\Vahid: Now I changed it to $\overline{p}$.}
+%\paragraph{Spatial discretization}
+%Let the admissible {set} of pressure be
+%\begin{equation*}
+%    \begin{aligned}
+%        \mathscr{S}_p &:= \left\{p \in H^1 (\Omega) \middle|
+%        p = p_D\text{ on }\Gamma_D \right\}.
+%    \end{aligned}
+%\end{equation*}
+%\todo[inline]{YS: Move $\mathscr{S}_p$ here. Again, make sure on which part of $\partial\Omega$ we are imposing $p$.\\Vahid: Done. Now we are imposing $p_D$ on $\Gamma_P$.}
+
+To proceed, let the admissible set of pressure be:
+\begin{equation*}
+	\mathscr{S}_p := \left\{p \in H^1 (\Omega) \middle|
+	p = p_D~\text{on}~\Gamma_P \right\}.
+\end{equation*}
+The test function space can be defined as:
+\begin{equation*}
+\mathscr{V}_{p}= \left \{{\overline{p}}\in H^1(\Omega) \middle | {\overline{p}} =0~\text{on}~\Gamma_P\right \}.
+\end{equation*}
+The weak form can be stated as: find $p\in\mathscr{S}_p$ such that for all admissible functions $\overline{p}\in\mathscr{V}_p$,
+\begin{equation} \label{Eq:waekform_p}
+    \begin{aligned}
+     &\frac{1}{\Delta t} \int_{\Omega} \frac{\alpha-\phi}{K_s} \left(p-p^{n-1}\right){\overline{p}} \; d\Omega-\frac{1}{\Delta t} \int_{\Omega} \beta_s(\alpha-\phi) \left(T-T^{n-1}\right){\overline{p}} \; d\Omega\\&+\frac{\alpha}{\Delta t} \int_{\Omega} (\vol\bm{\varepsilon}_e-\left(\vol\bm{\varepsilon}_e\right)^{n-1}){\overline{p}} \; d\Omega+\int_{\Omega}  \frac{\kappa}{\mu} \nabla p \cdot \nabla {\overline{p}} \; d\Omega   
+     -\int_{\Gamma_B} Q_p {\overline{p}} \; d\Gamma =0,
+    \end{aligned}
+\end{equation}
+where $p^{n-1}$, $T^{n-1}$, and $\left(\vol\bm{\varepsilon}_e\right)^{n-1}$ are obtained from previous time step.
+
+\subsection{Energy balance}
+To proceed, let the admissible set of pressure be:
+\begin{equation*}
+	\mathscr{S}_T := \left\{T \in H^1 (\Omega) \middle|
+	T = T_D~\text{on}~\Gamma_T \right\}.
+\end{equation*}
+The test function space can be defined as:
+\begin{equation*}
+\mathscr{V}_{T}= \left \{{\overline{T}}\in H^1(\Omega) \middle | {\overline{T}} =0~\text{on}~\Gamma_T \right \}.
+\end{equation*}
+The weak form can be stated as: find $T\in\mathscr{S}_T$ such that for all admissible functions $\overline{T}\in\mathscr{V}_T$:
+\begin{equation} \label{Eq:waekform_T}
+    \begin{aligned}
+&\frac{1}{\Delta t} \int_{\Omega} \left( c\rho\right)_{\text{eff}} \left(T-T^{n-1}\right) \overline{T} \; d\Omega+\int_{\Omega} \left( c_f \rho_f \mathbf{q}\cdot \nabla T \right) \overline{T}  \; d\Omega \\&-\int_{\Omega}{k}_{\text{eff}} \nabla T \cdot \nabla \overline{T}\; d\Omega  -\int_{\Gamma_B}Q_T {\overline{T}} \; d\Gamma 
+=0
+    \end{aligned}
+\end{equation}

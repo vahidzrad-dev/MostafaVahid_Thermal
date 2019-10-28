@@ -1,0 +1,227 @@
+\documentclass{elsarticle}
+
+\usepackage{lineno,hyperref}
+%\usepackage{refcheck}
+\modulolinenumbers[5]
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
+%added by Mostafa
+% Package 'amsmath' pre-loaded by Vahid
+\RequirePackage{amsmath}
+
+%\documentclass[twocolumn]{svjour3}          % twocolumn
+%
+%
+%Two packages added by Vahid
+%\usepackage{cite}
+%\usepackage{lineno}
+%\linenumbers
+%\usepackage{amsmath}
+%\usepackage{flexisym}
+%\usepackage{algorithmic}
+\usepackage{amssymb, bm, mathrsfs, xcolor, hyperref}
+\usepackage{graphicx,subfig}
+\usepackage[section,subsection,subsubsection]{extraplaceins}
+\usepackage[]{algorithm2e}
+\usepackage{algpseudocode}% http://ctan.org/pkg/{algorithms,algorithmicx}
+\usepackage{placeins}
+%\usepackage{stmaryrd}
+% Package below added by Vahid to prevent a warning
+\usepackage{textcomp}
+%\usepackage{gensymb}
+%\usepackage[mathscr]{euscript}
+%\usepackage{dsfont}
+%\usepackage{mathptmx}      % use Times fonts if available on your TeX system
+ \usepackage[mathscr]{euscript}
+%\usepackage{changes}
+\usepackage{epstopdf}
+\graphicspath{{Figures/}, {Figures/Mandel/}}
+%\usepackage{todonotes}
+%\renewcommand{\todo}{}
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{remark}{remark}[theorem]
+
+% insert here the call for the packages your document requires
+%\usepackage{latexsym}
+% etc.
+%
+% please place your own definitions here and don't use \def but
+% \newcommand{}{}
+
+
+%\graphicspath{{CO2_Paper_Draft/figures}}
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+%\usepackage{float}
+%\usepackage{subcaption}
+%\usepackage{subfig}
+%\usepackage{color}
+\setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\intextsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\floatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\dbltextfloatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\dblfloatsep}{10pt plus 1.0pt minus 2.0pt}
+
+% Added by Vahid
+\usepackage{listings}
+\usepackage{color}
+\usepackage{changes}
+\usepackage{lipsum}% <- For dummy text
+\definechangesauthor[name={Vahid}, color=orange]{Vahid}
+\setremarkmarkup{(#2)}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  % numbers=none,
+  %Added by Vahid
+  numbers=left,
+  stepnumber=1,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\DeclareMathOperator{\divergence}{div}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\dev}{dev}
+\DeclareMathOperator{\argmin}{arg min}
+
+% The line below added by Vahid to prevent a warning
+%\hypersetup{final}
+%\include{definitions}
+%\newtheorem{remark}{remark}[theorem]
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\newtheorem{remark}{Remark}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+%\usepackage{changes}
+\usepackage{todonotes}
+\newcommand{\comment}[1]{{\color{blue}\vspace{5 mm}\par \noindent
+		\marginpar{\textsc{Comment}} \framebox{\begin{minipage}[c]{0.95
+					\textwidth} \tt #1 \end{minipage}}\vspace{5 mm}\par}}
+
+\journal{Journal of Natural Gas Science and Engineering}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Numerical of Thermo-hydro- mechanical modeling of CO$_2$ fracturing by the phase field approach}
+%\tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
+
+%% Group authors per affiliation:
+%\author{Mostafa Mollaali\fnref{myfootnote}}
+%\address{Radarweg 29, Amsterdam}
+%\fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+\author[mymainaddress]{Vahid Ziaei-Rad}
+\author[mysecondaryaddress]{Mostafa Mollaali}
+%\ead[url]{www.elsevier.com}
+
+
+%\ead[url]{www.elsevier.com}
+
+\author[mysecondaryaddress]{Yongxing Shen\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{yongxing.shen@sjtu.edu.cn}
+
+\address[mymainaddress]{Department of Civil Engineering, Isfahan University of Technology, Isfahan 84156-83111, Iran}
+\address[mysecondaryaddress]{University of Michigan -- Shanghai Jiao Tong University Joint Institute, Shanghai Jiao Tong University,	Shanghai, China}
+
+\begin{abstract}
+
+\end{abstract}
+
+\begin{keyword}
+%\texttt{elsarticle.cls}\sep \LaTeX\sep Elsevier \sep template
+CO$_2$ fracturing \sep  CO$_2$ fluid flow \sep  phase field
+\MSC[2010] 65K10
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+%\todo[inline]{YS to VZR: Whenever ready, please update your email address to the one with your current affiliation.}
+
+%\todo[inline]{YS: We have to fix the multiply defined labels. Check the log.\\
+%Vahid: I have fixed some warnings. Others mostly come from Section \ref{sec:num-examples} which we will do soon later then.}
+
+\input{section_1_Introduction_co2.tex}
+%\input{section_2_Math_model2_co2.tex}
+\input{section_2_Math_model2_h2o.tex}
+\input{section_3_Num_sol_co2.tex}
+%\input{section_4_Num_algo_co2.tex}
+%\input{section_4_Num_exam_co2.tex}
+%\input{section_5_conclusions.tex}
+%\input{section_6_Conclusions}
+\clearpage
+\appendix
+%\renewcommand{\theequation}{A-\arabic{equation}}
+%    % redefine the command that creates the equation no.
+%\setcounter{equation}{0}  % reset counter  
+%\input{appendix_A_verification_co2.tex}
+\input{appendix_B_weakform_co2.tex}
+
+
+\section*{Acknowledgments}
+  This work is supported by the National Natural Science Foundation of China with grant \#11402146. YS also acknowledges the financial support by the Young 1000 Talent Program of China.
+
+%\section*{References}
+%% Vancouver name/year
+%\bibliographystyle{model4-names}\biboptions{authoryear}
+\bibliography{ref}
+%\bibliography{../Revision/ref}
+\end{document}

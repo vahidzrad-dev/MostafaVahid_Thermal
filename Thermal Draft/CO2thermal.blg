@@ -1,0 +1,66 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: CO2thermal.aux
+The style file: elsarticle-num.bst
+Database file #1: ref.bib
+Repeated entry---line 4126 of file ref.bib
+ : @article{mahmoud2014development
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 4168 of file ref.bib
+ : @article{merxhani2016introduction
+ :                                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 4174 of file ref.bib
+ : @article{heider2018modeling
+ :                            ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 4184 of file ref.bib
+ : @inproceedings{Sheng2012
+ :                         ,
+I'm skipping whatever remains of this entry
+Warning--empty journal in merxhani2016introduction
+Warning--empty booktitle in Sheng2012
+Warning--empty pages in Sheng2012
+You've used 19 entries,
+            2937 wiz_defined-function locations,
+            793 strings with 9193 characters,
+and the built_in function-call counts, 5747 in all, are:
+= -- 494
+> -- 257
+< -- 5
++ -- 98
+- -- 79
+* -- 401
+:= -- 821
+add.period$ -- 19
+call.type$ -- 19
+change.case$ -- 17
+chr.to.int$ -- 0
+cite$ -- 22
+duplicate$ -- 174
+empty$ -- 628
+format.name$ -- 96
+if$ -- 1459
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 20
+newline$ -- 65
+num.names$ -- 21
+pop$ -- 137
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 360
+stack$ -- 0
+substring$ -- 274
+swap$ -- 31
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 3
+while$ -- 42
+width$ -- 21
+write$ -- 159
+(There were 4 error messages)

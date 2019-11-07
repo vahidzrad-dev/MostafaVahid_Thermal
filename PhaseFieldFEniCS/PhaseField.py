@@ -37,7 +37,7 @@ def psi(u):
            mu*inner(dev(epsilon(u)),dev(epsilon(u)))		
 def H(uold,unew,Hold):
     return conditional(lt(psi(uold),psi(unew)),psi(unew),Hold)
-		
+
 # Boundary conditions
 top = CompiledSubDomain("near(x[1], 0.5) && on_boundary")
 bot = CompiledSubDomain("near(x[1], -0.5) && on_boundary")
@@ -95,7 +95,7 @@ while t<=1.0:
         Hold.assign(project(psi(unew), WW))
 
         if err < tol:
-		
+
             print ('Iterations:', iter, ', Total time', t)
 
             if round(t*1e4) % 10 == 0:
@@ -105,6 +105,6 @@ while t<=1.0:
                 fy = Traction[1]*ds(1)
                 fname.write(str(t*u_r) + "\t")
                 fname.write(str(assemble(fy)) + "\n")
-	    	    
+
 fname.close()
-print ('Simulation completed') 
+print ('Simulation completed')

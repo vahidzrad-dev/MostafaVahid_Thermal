@@ -1,5 +1,5 @@
 
-            lc = DefineNumber[ 0.000975, Name "Parameters/lc" ];
+            lc = DefineNumber[ 0.00195, Name "Parameters/lc" ];
             H = 100.0e-3;
             L = 100.0e-3;
 

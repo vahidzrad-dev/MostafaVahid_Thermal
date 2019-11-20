@@ -43,7 +43,8 @@ subdir = "meshes/"
 mesh_name = "mesh" # "fracking_hsize%g" % (h_size)
 
 mesh = Mesh(subdir + mesh_name + ".xml")
-
+plot(mesh)
+ipdb.set_trace()
 # Define Space
 V_u = VectorFunctionSpace(mesh, 'CG', 1)
 # V_v = VectorFunctionSpace(mesh, 'CG', 1)
@@ -63,10 +64,10 @@ n_dim = len(u_)
 # Introduce manually the material parameters
 E = 190.0e9		                                # Young's modulus: (G)Pa (Chu 2017-4.1)
 nu = 0.30		                                # Poisson's ratio: - (Chu 2017-4.1)
-Gc = 2.213		                                # critical energy release rate: J/m^2 (Chu 2017-4.1)
+Gc = 2.213e4	                                # critical energy release rate: J/m^2 (Chu 2017-4.1)
 
-h_size = 9.75e-4		                        # mesh size: mm (Chu 2017-4.1) 'h is 10 times more than reference.'
-ell = 4.0 * h_size                              # length scale: mm (Chu 2017-4.1)
+h_size = 0.975e-4		                        # mesh size: mm (Chu 2017-4.1) 'h is 10 times more than reference.'
+ell = 2.0 * h_size                              # length scale: mm (Chu 2017-4.1)
 
 Ts = Constant(680.0)  	                        # initial temperature of slab: K (Chu 2017-3.3)
 Tw = Constant(300.0)                            # temperature of surface contacted with water: K (Chu 2017-3.3)
@@ -78,7 +79,7 @@ mu = Constant(E/(2*(1+nu)))      				# shear modulus: MPa (conversion formulae)
 
 rho = 8.0e3 						            # density: kg/m^3 (Chu 2017-4.1)
 
-alpha = Constant(6.6e-6)                        # linear expansion coefficient: 1/K (Chu 2017-4.1)
+alpha = Constant(6.6e-6)                        # linear expansion coefficient: 1/K (Chu 2017-4.1) ??
 
 c = Constant(961.5) 					        # specific heat of material: #J/(kgK) (Chu 2017-4.1)
 k = Constant(21.0)  					        # thermal conductivity: #W/(mK)=J/(mKs) (Chu 2017-4.1)
@@ -90,36 +91,41 @@ deltaT = 2.5e-8                                 # source: (Chu2017-3.3: h_size v
 
 gamma = 1.0e0                                   # heat source
 # Constitutive functions
+
+
 # strain
 def epsilon(u_):
     return sym(nabla_grad(u_))
 
 
-def epsilon_t(T_):
-    return alpha * T_ * Identity(n_dim)
-
-
+# def epsilon_t(T_):
+#     return alpha * T_ * Identity(n_dim)
+#
+#
+# # def epsilon_e(u_, T_):
+# #     return sym(grad(u_))
+#
+#
 # def epsilon_e(u_, T_):
-#     return sym(grad(u_))
+#     return epsilon(u_) - epsilon_t(T_)
 
 
-def epsilon_e(u_, T_):
-    return epsilon(u_) - epsilon_t(T_)
+# # strain energy
+# def psi(u_, T_): # Note: The trace operator is understood in three-dimensions setting,
+#     # and it accommodates both plane strain and plane stress cases. Current formulation is valid for plane strain only.
+#     return lmbda/2.0 * (tr(epsilon_e(u_, T_)))**2 + mu * inner(epsilon_e(u_, T_), epsilon_e(u_, T_))
+#
+#
+# def psi_p(u_, T_):
+#     return (lmbda/2.0 + mu/3.0) * ((tr(epsilon_e(u_, T_)) + abs(tr(epsilon_e(u_, T_))))/2.0)**2.0 \
+#            + mu * inner(dev(epsilon_e(u_, T_)), dev(epsilon_e(u_, T_)))
+#
+#
+# def psi_n(u_, T_):
+#     return (lmbda/2.0 + mu/3.0) * ((tr(epsilon_e(u_, T_)) - abs(tr(epsilon_e(u_, T_))))/2.0)**2.0
 
-
-# strain energy
-def psi(u_, T_): # Note: The trace operator is understood in three-dimensions setting,
-    # and it accommodates both plane strain and plane stress cases. Current formulation is valid for plane strain only.
-    return lmbda/2.0 * (tr(epsilon_e(u_, T_)))**2 + mu * inner(epsilon_e(u_, T_), epsilon_e(u_, T_))
-
-
-def psi_p(u_, T_):
-    return (lmbda/2.0 + mu/3.0) * ((tr(epsilon_e(u_, T_)) + abs(tr(epsilon_e(u_, T_))))/2.0)**2.0 \
-           + mu * inner(dev(epsilon_e(u_, T_)), dev(epsilon_e(u_, T_)))
-
-
-def psi_n(u_, T_):
-    return (lmbda/2.0 + mu/3.0) * ((tr(epsilon_e(u_, T_)) - abs(tr(epsilon_e(u_, T_))))/2.0)**2.0
+def psi(u_):
+    return lmbda/2. * (tr(epsilon(u_)))**2. + mu * inner(epsilon(u_), epsilon(u_))
 
 # def psi(u_, T_): #Vahid: There is an alternative for decomposition of tension/compression in Marigo
 #     # if tr(epsilon_e(u_, T_)) >= 0.:
@@ -130,19 +136,22 @@ def psi_n(u_, T_):
 
 
 # stress
-def sigma(u_, T_): # Note: The trace operator is understood in three-dimensions setting,
-    # and it accommodates both plane strain and plane stress cases. Current formulation is valid for plane strain only.
-    return lmbda * tr(epsilon_e(u_, T_)) * Identity(len(u_)) + 2.0 * mu * (epsilon_e(u_, T_))
+# def sigma(u_, T_): # Note: The trace operator is understood in three-dimensions setting,
+#     # and it accommodates both plane strain and plane stress cases. Current formulation is valid for plane strain only.
+#     return lmbda * tr(epsilon_e(u_, T_)) * Identity(len(u_)) + 2.0 * mu * (epsilon_e(u_, T_))
+#
+#
+# def sigma_p(u_, T_):    # sigma_+ for Amor's model
+#     return (lmbda + 2.0 * mu / 3.0) * (tr(epsilon_e(u_, T_)) + abs(tr(epsilon_e(u_, T_))))/2.0 \
+#            * Identity(len(u_)) + 2.0 * mu * dev(epsilon_e(u_, T_))
+#
+#
+# def sigma_n(u_, T_):    # sigma_- for Amor's model
+#     return (lmbda + 2.0 * mu / 3.0) * (tr(epsilon_e(u_, T_)) - abs(tr(epsilon_e(u_, T_))))/2.0 \
+#            * Identity(len(u_))
 
-
-def sigma_p(u_, T_):    # sigma_+ for Amor's model
-    return (lmbda + 2.0 * mu / 3.0) * (tr(epsilon_e(u_, T_)) + abs(tr(epsilon_e(u_, T_))))/2.0 \
-           * Identity(len(u_)) + 2.0 * mu * dev(epsilon_e(u_, T_))
-
-
-def sigma_n(u_, T_):    # sigma_- for Amor's model
-    return (lmbda + 2.0 * mu / 3.0) * (tr(epsilon_e(u_, T_)) - abs(tr(epsilon_e(u_, T_))))/2.0 \
-           * Identity(len(u_))
+def sigma(u_):
+    return lmbda * tr(epsilon_e(u_)) * Identity(len(u_)) + 2.0 * mu * (epsilon_e(u_))
 
 
 # Boundary conditions #Note: We need to change manually the numbers in accordance with the mesh.
@@ -152,39 +161,39 @@ left = CompiledSubDomain("near(x[0], 0.0) && on_boundary")
 right = CompiledSubDomain("near(x[0], 100.0e-3) && on_boundary")
 
 
-class v_D(SubDomain):
-    def inside(self, x, on_boundary):
-        return on_boundary and x[1]<=a and near(x[0], 0.0)
-
-v_D = v_D()
-
-class Pinpoint(SubDomain):
-    TOL = 1e-3
-    def __init__(self, coords):
-        self.coords = np.array(coords)
-        SubDomain.__init__(self)
-    def move(self, coords):
-        self.coords[:] = np.array(coords)
-    def inside(self, x, on_boundary):
-        TOL = 1e-3
-        return np.linalg.norm(x-self.coords) < TOL
-
-
-pinpoint_l = Pinpoint([0.,0.])
-pinpoint_r = Pinpoint([L,0.])
-
-load_bot = Expression(("0.0", "-t"), t=0.0, degree=1)
-load_top = Expression(("0.0", "t"), t=0.0, degree=1)
-# load_bot = Expression(("0.0", "0.0"))
+# class v_D(SubDomain):
+#     def inside(self, x, on_boundary):
+#         return on_boundary and x[1]<=a and near(x[0], 0.0)
+#
+# v_D = v_D()
+#
+# class Pinpoint(SubDomain):
+#     TOL = 1e-3
+#     def __init__(self, coords):
+#         self.coords = np.array(coords)
+#         SubDomain.__init__(self)
+#     def move(self, coords):
+#         self.coords[:] = np.array(coords)
+#     def inside(self, x, on_boundary):
+#         TOL = 1e-3
+#         return np.linalg.norm(x-self.coords) < TOL
+#
+#
+# pinpoint_l = Pinpoint([0.,0.])
+# pinpoint_r = Pinpoint([L,0.])
+#
+# load_bot = Expression(("0.0", "-t"), t=0.0, degree=1)
+# load_top = Expression(("0.0", "t"), t=0.0, degree=1)
+# # load_bot = Expression(("0.0", "0.0"))
 
 # Boundary conditions for u
-bc_u_pt_left = DirichletBC(V_u.sub(1), Constant(0.0), pinpoint_l, method='pointwise')
-bc_u_pt_right = DirichletBC(V_u.sub(1), Constant(0.0), pinpoint_r, method='pointwise')
-
-bc_u_bot = DirichletBC(V_u, Constant((0.,)*2), bot)
-bc_u_top = DirichletBC(V_u, load_top, top)
-bc_u = [bc_u_pt_right, bc_u_pt_left, bc_u_bot]
-# ipdb.set_trace()
+# bc_u_pt_left = DirichletBC(V_u.sub(1), Constant(0.0), pinpoint_l, method='pointwise')
+# bc_u_pt_right = DirichletBC(V_u.sub(1), Constant(0.0), pinpoint_r, method='pointwise')
+#
+# bc_u_bot = DirichletBC(V_u, Constant((0.,)*2), bot)
+# bc_u_top = DirichletBC(V_u, load_top, top)
+# bc_u = [bc_u_pt_right, bc_u_pt_left, bc_u_bot]
+ipdb.set_trace()
 
 
 # Boundary conditions for v

@@ -1,0 +1,234 @@
+\providecommand{\noopsort}[1]{}\providecommand{\singleletter}[1]{#1}%
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Amor%
+, Marigo%
+\BCBL {}\ \BBA {} Maurini%
+}{%
+Amor%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2009}}%
+}]{%
+Amor09}
+\APACinsertmetastar {%
+Amor09}%
+\begin{APACrefauthors}%
+Amor, H.%
+, Marigo, J\BHBI J.%
+\BCBL {}\ \BBA {} Maurini, C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2009}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Regularized formulation of the variational brittle
+  fracture with unilateral contact: Numerical experiments} {Regularized
+  formulation of the variational brittle fracture with unilateral contact:
+  Numerical experiments}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of the Mechanics and Physics of
+  Solids}{57}{}{1209--1229}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Bourdin%
+, Francfort%
+\BCBL {}\ \BBA {} Marigo%
+}{%
+Bourdin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2008}}%
+}]{%
+bourdin2008variational}
+\APACinsertmetastar {%
+bourdin2008variational}%
+\begin{APACrefauthors}%
+Bourdin, B.%
+, Francfort, G\BPBI A.%
+\BCBL {}\ \BBA {} Marigo, J\BHBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2008}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{The variational approach to fracture}} {{The
+  variational approach to fracture}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Elasticity}{91}{}{5--148}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Courtecuisse%
+\ \protect \BOthers {.}}{%
+Courtecuisse%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2014}}%
+}]{%
+Courtecuisse2014394}
+\APACinsertmetastar {%
+Courtecuisse2014394}%
+\begin{APACrefauthors}%
+Courtecuisse, H.%
+, Allard, J.%
+, Kerfriden, P.%
+, Bordas, S\BPBI P.%
+, Cotin, S.%
+\BCBL {}\ \BBA {} Duriez, C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2014}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Real-time simulation of contact and cutting of
+  heterogeneous soft-tissues} {Real-time simulation of contact and cutting of
+  heterogeneous soft-tissues}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Medical Image Analysis}{18}{2}{394 - 410}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Dal~Maso%
+, Francfort%
+\BCBL {}\ \BBA {} Toader%
+}{%
+Dal~Maso%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2005}}%
+}]{%
+Maso2005}
+\APACinsertmetastar {%
+Maso2005}%
+\begin{APACrefauthors}%
+Dal~Maso, G.%
+, Francfort, A\BPBI G.%
+\BCBL {}\ \BBA {} Toader, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2005}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Quasistatic Crack Growth in Nonlinear Elasticity}
+  {Quasistatic crack growth in nonlinear elasticity}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Archive for Rational Mechanics and
+  Analysis}{176}{2}{165--225}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Francfort%
+\ \BBA {} Marigo%
+}{%
+Francfort%
+\ \BBA {} Marigo%
+}{%
+{\protect \APACyear {1998}}%
+}]{%
+Francfort19981319}
+\APACinsertmetastar {%
+Francfort19981319}%
+\begin{APACrefauthors}%
+Francfort, G\BPBI A.%
+\BCBT {}\ \BBA {} Marigo, J\BHBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1998}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Revisiting brittle fracture as an energy minimization
+  problem} {Revisiting brittle fracture as an energy minimization
+  problem}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of the Mechanics and Physics of
+  Solids}{46}{8}{1319--1342}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+G\"ultekin%
+, Dal%
+\BCBL {}\ \BBA {} Holzapfel%
+}{%
+G\"ultekin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2016}}%
+}]{%
+Gultekin2016}
+\APACinsertmetastar {%
+Gultekin2016}%
+\begin{APACrefauthors}%
+G\"ultekin, O.%
+, Dal, H.%
+\BCBL {}\ \BBA {} Holzapfel, G\BPBI A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2016}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A phase-field approach to model fracture of arterial
+  walls: Theory and finite element analysis} {A phase-field approach to model
+  fracture of arterial walls: Theory and finite element analysis}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Computer Methods in Applied Mechanics and
+  Engineering}{}{}{-}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Miehe%
+, Welschinger%
+\BCBL {}\ \BBA {} Hofacker%
+}{%
+Miehe%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2010}}%
+}]{%
+Miehe10}
+\APACinsertmetastar {%
+Miehe10}%
+\begin{APACrefauthors}%
+Miehe, C.%
+, Welschinger, F.%
+\BCBL {}\ \BBA {} Hofacker, M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2010}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Thermodynamically consistent phase-field models of
+  fracture: {V}ariational principles and multi-field {FE} implementations}
+  {Thermodynamically consistent phase-field models of fracture: {V}ariational
+  principles and multi-field {FE} implementations}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{International Journal for Numerical Methods in
+  Engineering}{83}{}{1273--1311}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Wheeler%
+, Wick%
+\BCBL {}\ \BBA {} Wollner%
+}{%
+Wheeler%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2014}}%
+}]{%
+Wheeler201469}
+\APACinsertmetastar {%
+Wheeler201469}%
+\begin{APACrefauthors}%
+Wheeler, M\BPBI F.%
+, Wick, T.%
+\BCBL {}\ \BBA {} Wollner, W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2014}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {An augmented-{L}agrangian method for the phase-field
+  approach for pressurized fractures} {An augmented-{L}agrangian method for the
+  phase-field approach for pressurized fractures}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Computer Methods in Applied Mechanics and
+  Engineering}{271}{}{69--85}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}

@@ -1,0 +1,24 @@
+label=fenics]\bgroup \frametitle {\SectionFour}
+	\framesubtitle{FEniCS and PETSc}
+	%	\vspace{\baselineskip}
+	%\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+	%		\item \textbf{PETSc} is a suite of data structures and routines for the solution of partial differential equations.
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item The \textbf{FEniCS Project} is a collection of free software with an extensive list of features for efficient solution of differential equations. \\
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+\begin{Verbatim}[commandchars=\\\{\}]
+energy_elastic = psi(epsdev(u_), d_) * dx
+...
+Residual_u = \codeHighlight{derivative} (energy_total, v_, v_t)
+Jacobian_u = \codeHighlight{derivative} (Residual_u, v_, v)
+\end{Verbatim}
+		\item We use the FEniCS project and PETSc software packages:
+		\begin{itemize}
+			\item ``Rigid Punch Incompressible Elasticity'' by \textbf{Jack~S.~Hale}
+			\item ``FEniCS Variational Damage and Fracture'' by \textbf{Corrado~Maurini}
+			\textit{Available online at {\color{blue}{\href{url}{https://bitbucket.org/cmaurini/~}}}}
+			\item ``Phase Field Models with Incompressibility'' by \textbf{Vahid~Ziaei-Rad}
+		\end{itemize}
+	\end{itemize}
+	%\hyperlink{subinc}{\beamerbutton{supplemental}}
